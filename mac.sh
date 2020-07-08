@@ -61,7 +61,7 @@ dotfiles_setup() {
 
   cd "$DOTFILES_DEST"
 
-  declare -a farms=("homebrew" "git" "zsh")
+  declare -a farms=("homebrew" "git" "zsh" "vim")
 
   for i in "${farms[@]}"
   do
