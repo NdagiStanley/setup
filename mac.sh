@@ -5,7 +5,7 @@ set -e
 # This is a simple basic starter setup for a mac dev machine.
 
 DOTFILES_REPO="https://github.com/NdagiStanley/.files"
-DOTFILES_DEST="$HOME/.files"
+DOTFILES_DEST="$HOME/dotfiles"
 
 # Pretty utils
 CYAN=$(tput setaf 7)
