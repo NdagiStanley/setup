@@ -4,11 +4,11 @@ set -e
 
 # This is a simple basic starter setup for a mac dev machine.
 
-DOTFILES_REPO="https://github.com/NdagiStanley/dotfiles"
+DOTFILES_REPO="https://github.com/NdagiStanley/.files"
 DOTFILES_DEST="$HOME/dotfiles"
 
 # Pretty utils
-CYAN=$(tput setaf 1)
+CYAN=$(tput setaf 7)
 GREEN=$(tput setaf 2)
 POWDER_BLUE=$(tput setaf 153)
 NORMAL=$(tput sgr0)
@@ -80,6 +80,21 @@ set_shell() {
   fi
 }
 
+setup() {
+    # Vim
+    git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
+    vim +PluginInstall +qall
+
+    # Zsh Autosuggestions
+    ZSH_AUTOSUGGESTIONS_DIR="$ZSH_CUSTOM/plugins/zsh-autosuggestions"
+    if [ ! -d "$ZSH_AUTOSUGGESTIONS_DIR" ]; then
+        sudo git clone https://github.com/zsh-users/zsh-autosuggestions $ZSH_AUTOSUGGESTIONS_DIR
+    fi
+
+    # Rafiki zsh theme
+    mkdir -p $ZSH_CUSTOM/themes && sudo curl -o $ZSH_CUSTOM/themes/rafiki.zsh-theme https://raw.githubusercontent.com/NdagiStanley/rafiki-zsh/own-editions/rafiki.zsh-theme
+}
+
 setup_languages() {
   # --------------------------------------
   # ASDF
@@ -107,9 +122,9 @@ setup_languages() {
 homebrew_setup
 dotfiles_setup
 
-# cd $HOME
+cd $HOME
 
-# print_out "Installing packages"
+print_out "Installing packages"
 
 # Install all packages from brew.
 brew bundle
@@ -118,7 +133,7 @@ brew bundle
 set_shell
 
 # Setup Vim, Zsh suggestions, Zsh theme
-./setup.sh core
+setup
 
 # Setup Node, Python
 setup_languages
