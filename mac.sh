@@ -4,14 +4,11 @@ set -e
 
 # This is a simple basic starter setup for a mac dev machine.
 
-DOTFILES_REPO="https://github.com/habu-kagumba/dotfiles"
+DOTFILES_REPO="https://github.com/NdagiStanley/dotfiles"
 DOTFILES_DEST="$HOME/dotfiles"
 
-TMUX_REPO="https://github.com/tmux-plugins/tpm"
-TMUX_DEST="$HOME/.tmux/plugins/tpm"
-
 # Pretty utils
-RED=$(tput setaf 1)
+CYAN=$(tput setaf 1)
 GREEN=$(tput setaf 2)
 POWDER_BLUE=$(tput setaf 153)
 NORMAL=$(tput sgr0)
@@ -62,17 +59,9 @@ dotfiles_setup() {
     fi
   fi
 
-  if ! [ -d "$TMUX_DEST" ]; then
-    printf "\n${CYAN}Cloning tmux plugins${NORMAL}"
+  cd "$DOTFILES_DEST"
 
-    if git clone -q $TMUX_REPO $TMUX_DEST; then
-      printf " ${GREEN}✔︎${NORMAL}\n"
-    fi
-  fi
-
-  cd $DOTFILES_DEST
-
-  declare -a farms=("homebrew" "ag" "bash" "excuberant_tags" "git" "neovim" "rubygems" "scripts" "tmux" "zsh")
+  declare -a farms=("homebrew" "git" "zsh")
 
   for i in "${farms[@]}"
   do
@@ -107,46 +96,12 @@ setup_languages() {
   asdf plugin-add nodejs https://github.com/asdf-vm/asdf-nodejs.git
 
   # --------------------------------------
-  # Ruby
-  # --------------------------------------
-  print_out "Setting up ruby"
-
-  asdf plugin-add ruby https://github.com/asdf-vm/asdf-ruby.git
-
-  # --------------------------------------
   # Python
   # --------------------------------------
   print_out "Setting up python"
 
   asdf plugin-add python https://github.com/tuvistavie/asdf-python.git
 
-  # --------------------------------------
-  # Go
-  # --------------------------------------
-  print_out "Setting up Go"
-
-  asdf plugin-add golang https://github.com/kennyp/asdf-golang.git
-
-  # --------------------------------------
-  # Rust
-  # --------------------------------------
-  print_out "Setting up Rust"
-
-  asdf plugin-add rust https://github.com/code-lever/asdf-rust.git
-}
-
-setup_neovim() {
-  print_out "Setting up Neovim"
-
-  pyenv virtualenv 2.7.13 neovim2
-
-  pyenv activate neovim2
-  pip install websocket-client sexpdata neovim
-  source deactivate
-
-  pip install neovim flake8
-
-  gem install neovim
 }
 
 homebrew_setup
@@ -157,15 +112,15 @@ dotfiles_setup
 # print_out "Installing packages"
 
 # Install all packages from brew.
-# brew bundle
+brew bundle
 
 # Uncomment this if you haven't setup zsh or oh-my-zsh yet.
-# set_shell
+set_shell
 
-# Setup Node, Ruby, Python, Scala and Go
-# setup_languages
+# Setup Vim, Zsh suggestions, Zsh theme
+./setup.sh core
 
-# Setup Neovim
-# setup_neovim
+# Setup Node, Python
+setup_languages
 
-# cd -
+cd -
